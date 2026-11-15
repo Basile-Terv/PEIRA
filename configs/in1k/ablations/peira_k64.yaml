@@ -1,0 +1,4 @@
+# Projector output width k=64 on the ablation setting (Table G.4).
+_base_: peira_batch_sigma.yaml
+model:
+  proj_output_dim: 64

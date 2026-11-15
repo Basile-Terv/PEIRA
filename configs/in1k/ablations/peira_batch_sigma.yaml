@@ -1,0 +1,6 @@
+# Mini-batch Sigma, eta 0.9 -> 0.5: the recipe the appendix ablations were run with.
+_base_: ../peira_resnet50.yaml
+loss:
+  lr: 0.9
+  lr_min: 0.5
+  predictor_cov: batch

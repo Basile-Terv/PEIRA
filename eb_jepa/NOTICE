@@ -1,0 +1,17 @@
+Vendored subset of facebookresearch/eb_jepa (https://github.com/facebookresearch/eb_jepa,
+Apache-2.0, see LICENSE in this directory), branch hier_cost_exp @ 280505d, modified for the
+PEIRA paper: kept only the import closure of train.py and probe.py (losses/anticollapse.py,
+utils/{checkpoint,config,distributed,logging,optimizers,training}.py); removed PEIRALoss
+(now the peira_loss package), VCLoss, the hierarchical/video/planning code and all unreachable
+functions; moved build_optimizer from builders.py into utils/optimizers.py; added `_base_`
+config inheritance to utils/config.py; reduced experiment naming to image pretraining.
+
+Added for the PEIRA experiments (not in hier_cost_exp @ 280505d): utils/rank.py (effective
+rank); VICRegReferenceLoss in losses/anticollapse.py; LARSReference and exclude_bias_and_norm
+in utils/optimizers.py; resume helpers in utils/checkpoint.py (trainable_state_dict,
+derive_resume_position, should_save_intra_epoch, is_training_complete) and
+utils/training.py (exit_if_training_complete); unwrap_model in utils/distributed.py.
+
+VICRegReferenceLoss and LARSReference port the VICReg loss and LARS optimizer of
+facebookresearch/vicreg (https://github.com/facebookresearch/vicreg, main_vicreg.py),
+MIT License, Copyright (c) Facebook, Inc. and its affiliates.

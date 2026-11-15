@@ -1,0 +1,4 @@
+# 300-epoch pretraining, cosine schedule stretched; probe e-200 and e-300 (Table G.5).
+_base_: peira_batch_sigma.yaml
+optim:
+  epochs: 300

@@ -1,0 +1,53 @@
+# SIGReg (LeJEPA BCS loss), ResNet-50 on ImageNet-1K, 100 epochs, batch size 2048, LARS.
+# Paper Table 1 (ImageNet-1K column, 66.26 +- 0.28).
+meta:
+  seed: 1  # paper: seeds 1, 1000, 10000
+  device: auto
+
+data:
+  dataset: imagenet1k
+  data_dir: ${oc.env:EBJEPA_DSETS}/ImageNet
+  batch_size: 2048  # global batch size, split across GPUs
+  num_workers: 32
+
+model:
+  type: resnet
+  resnet_arch: resnet50
+  compile: true
+  channels_last: true
+  gradient_as_bucket_view: true
+  static_graph: true
+
+  use_projector: true
+  proj_hidden_dim: 2048
+  proj_output_dim: 128
+
+loss:
+  type: bcs
+  lmbd: 0.01
+
+optim:
+  type: lars_ref
+  epochs: 100
+  lr: 2.4
+  weight_decay: 1.0e-6
+  momentum: 0.9
+  lars_eta: 0.001
+  warmup_epochs: 10
+  warmup_start_lr: 0.0
+  min_lr: 0.002
+  grad_clip: null
+  # Separate online probe: SGD, fixed LR, no weight decay, no schedule.
+  probe_separate: true
+  probe_lr: 0.3
+  probe_momentum: 0.9
+
+logging:
+  log_every: 1
+  save_every: 0  # latest.pth.tar only; positive values enable epoch snapshots
+  save_every_steps: 50  # intra-epoch save every N optimizer steps; 0 disables
+  tqdm_silent: false
+
+training:
+  use_amp: true
+  dtype: bfloat16

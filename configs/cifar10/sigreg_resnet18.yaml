@@ -1,0 +1,46 @@
+# SIGReg, CIFAR-style ResNet-18 on CIFAR-10, 1000 epochs, batch size 256, LARS, 1 GPU.
+# Paper Table 1 (CIFAR-10 column, 92.34 +- 0.21) and Table G.2.
+meta:
+  seed: 42  # paper: seeds 42, 43, 44
+  device: auto
+
+data:
+  dataset: cifar10  # downloaded into $EBJEPA_DSETS
+  batch_size: 256
+  num_workers: 4
+
+model:
+  type: resnet
+  resnet_arch: resnet18  # 3x3 conv1, no max-pool at 32x32
+  use_projector: true
+  proj_hidden_dim: 2048
+  proj_output_dim: 128
+
+loss:
+  type: bcs
+  # This BCS scales the Epps-Pulley statistic by the batch size (LeJEPA convention),
+  # so lmbd 0.1 matches lmbd 10 in Table 5 of EB-JEPA (paper, Table G.2).
+  lmbd: 0.1
+  num_slices: 256  # BCS default in the paper runs
+
+optim:
+  type: lars  # solo-learn style LARS (clip_lr, biases/norms excluded)
+  epochs: 1000
+  lr: 0.3
+  weight_decay: 1.0e-4
+  momentum: 0.9
+  lars_eta: 0.02
+  warmup_epochs: 10
+  warmup_start_lr: 3.0e-5
+  min_lr: 0.0
+  grad_clip: null  # no clipping
+  # Online probe in the LARS optimizer (lr 0.1, wd 0, same schedule): the reported top-1.
+
+logging:
+  log_every: 10
+  save_every: 0  # latest.pth.tar only; positive values enable epoch snapshots
+  tqdm_silent: false
+
+training:
+  use_amp: true
+  dtype: float16

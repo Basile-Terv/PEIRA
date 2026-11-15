@@ -1,0 +1,52 @@
+# PEIRA, CIFAR-style ResNet-18 on CIFAR-10, 1000 epochs, batch size 256, LARS, 1 GPU.
+# Paper Table 1 (CIFAR-10 column, k=1024: 91.68 +- 0.18) and Table G.2.
+meta:
+  seed: 42  # paper: seeds 42, 43, 44
+  device: auto
+
+data:
+  dataset: cifar10  # downloaded into $EBJEPA_DSETS
+  batch_size: 256
+  num_workers: 4
+
+model:
+  type: resnet
+  resnet_arch: resnet18  # 3x3 conv1, no max-pool at 32x32
+  use_projector: true
+  proj_hidden_dim: 2048
+  proj_output_dim: 1024  # k
+
+init:
+  scale: null
+
+loss:
+  type: peira
+  reg: 0.7     # ridge lambda
+  lr: 0.99     # covariance EMA rate eta_init
+  lr_min: 0.95 # covariance EMA rate eta_min (cosine schedule)
+  predictor_cov: ema  # Sigma in P: running estimate (Algorithm 1), as in the paper runs
+
+
+optim:
+  type: lars  # solo-learn style LARS (clip_lr, biases/norms excluded)
+  epochs: 1000
+  lr: 0.04
+  weight_decay: 1.0e-4
+  momentum: 0.9
+  lars_eta: 0.02
+  warmup_epochs: 10
+  warmup_start_lr: 3.0e-5
+  min_lr: 0.0
+  grad_clip: 1.0
+  clip_epoch: 4  # no clipping during the first 4 epochs
+  # Online probe in the LARS optimizer (lr 0.1, wd 0, same schedule): the reported top-1.
+
+logging:
+  log_every: 10
+  save_every: 0  # latest.pth.tar only; positive values enable epoch snapshots
+  spectral_every: 10  # spectrum/alignment for the diagnostics figure
+  tqdm_silent: false
+
+training:
+  use_amp: true
+  dtype: float16

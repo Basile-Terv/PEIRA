@@ -1,0 +1,5 @@
+# PEIRA (k=1024), ResNet-50 on ImageNet-1K, 100 epochs, batch size 2048, LARS.
+# Paper Table 1 (ImageNet-1K column, k=1024: 69.17 +- 0.06): peira_resnet50.yaml with a wider projector output.
+_base_: peira_resnet50.yaml
+model:
+  proj_output_dim: 1024

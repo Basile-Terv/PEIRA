@@ -1,0 +1,9 @@
+PEIRA experiments
+Copyright 2026 Michael Arbel, Basile Terver, Jean Ponce
+
+This repository includes a modified subset of EB-JEPA (https://github.com/facebookresearch/eb_jepa),
+licensed under the Apache License 2.0. See eb_jepa/LICENSE and eb_jepa/NOTICE.
+
+eb_jepa/losses/anticollapse.py (VICRegReferenceLoss) and eb_jepa/utils/optimizers.py
+(LARSReference) port code from VICReg (https://github.com/facebookresearch/vicreg),
+MIT License, Copyright (c) Facebook, Inc. and its affiliates. See licenses/VICReg-LICENSE.

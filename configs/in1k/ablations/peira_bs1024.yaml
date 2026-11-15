@@ -1,0 +1,6 @@
+# Global batch size 1024, lr = 0.3 x B/256 = 1.2 (Table G.7; default 2048 / 2.4), seed 1.
+_base_: peira_batch_sigma.yaml
+data:
+  batch_size: 1024
+optim:
+  lr: 1.2

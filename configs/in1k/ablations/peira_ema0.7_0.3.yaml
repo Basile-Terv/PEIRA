@@ -1,0 +1,5 @@
+# EMA rate schedule eta_init=0.7 -> eta_min=0.3 (Table G.6; default 0.9 -> 0.5), seed 1.
+_base_: peira_batch_sigma.yaml
+loss:
+  lr: 0.7
+  lr_min: 0.3

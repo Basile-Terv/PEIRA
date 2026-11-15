@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ruff_cache/
+.pytest_cache/
+.ipynb_checkpoints/
+# run outputs
+checkpoints/
+outputs/
+wandb/
+*.pth
+*.pth.tar
+*.out
+*.err
+figures/out/

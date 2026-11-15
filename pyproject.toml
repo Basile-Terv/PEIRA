@@ -1,0 +1,46 @@
+[project]
+name = "peira-experiments"
+version = "1.0.0"
+description = "Experiments of the PEIRA paper (NeurIPS 2026): ImageNet-1K pretraining and linear probes"
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+  {name = "Michael Arbel"},
+  {name = "Basile Terver"},
+  {name = "Jean Ponce"},
+]
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "peira-loss>=0.1.0",
+  "torch==2.6.0",
+  "torchvision==0.21.0",
+  "numpy==2.4.4",
+  "omegaconf==2.3.0",
+  "fire==0.7.1",
+  "tqdm==4.67.3",
+  "matplotlib==3.10.8",  # figures/, synthetic/
+  "pandas==3.0.2",  # figures/
+  "pillow==11.3.0",
+  "scipy==1.18.1",  # torchvision Flowers102 labels (transfer suite)
+  "datasets==4.8.4",  # ImageNet as a Hugging Face Arrow dataset, Stanford Cars
+  "huggingface_hub==1.33.0",  # pretrained checkpoints
+]
+
+[project.urls]
+Paper = "https://arxiv.org/abs/2605.17671"
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["train", "probe", "models", "metrics"]
+
+[tool.setuptools.packages.find]
+include = ["eb_jepa*", "data*"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint.isort]
+known-first-party = ["data", "eb_jepa", "metrics", "models"]
